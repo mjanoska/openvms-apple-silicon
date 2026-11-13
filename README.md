@@ -121,6 +121,7 @@ Inside VMS: `HELP INSTRUCTIONS`, then `HELP <command>`.
 - [VSI OpenVMS Forum](https://forum.vmssoftware.com) - VSI engineers and hobbyists
 - comp.os.vms - the Usenet newsgroup, via any newsreader
 - *Getting Started with OpenVMS: A Guide for New Users*, Michael D. Duffy (Digital Press, 2002)
+- [DCL exercises](exercises/README.md) - five practice tasks from an ELTE Budapest course (2005), with links to example solutions
 - [VSI community licence](https://vmssoftware.com/community/community-license/) - get your own kit
 
 ## Reproduce the flag bug
