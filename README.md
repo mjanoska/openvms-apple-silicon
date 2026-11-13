@@ -155,6 +155,44 @@ Run it yourself on an x86-64 Linux machine:
 
 Only Intel hardware was checked so far; results from AMD CPUs are welcome.
 
+## Thanks to the people who tried before
+
+This fix stands on two years of other people's attempts. They hit the same
+wall and documented it well enough for us to know where to start digging:
+
+- **nix23** and **dmjb** on the VSI forum
+  ([Qemu non-KVM installation](https://forum.vmssoftware.com/viewtopic.php?t=8612), April 2023)
+  were the first to try pure QEMU emulation, nix23 on old Intel hardware without
+  XSAVE and dmjb on an M1 Mac. Both reached `%SYSTEM-W-NOPAGEFILE` and posted
+  full configurations and console logs. dmjb retried with QEMU 8.0 and was the
+  first to suspect QEMU's x86 emulation itself. That turned out to be right.
+- **Volker Halle** joined that thread with boot logs from a working VMware system
+  to compare against, and suggested that something was looping on memory
+  allocation. That was a sharp first read of the symptom.
+- **sparcie** got the boot started in UTM on an M1 Pro, and **thomas@ham** posted
+  a detailed UTM log on an M1
+  ([Customer experience with hypervisors untested by VSI](https://forum.vmssoftware.com/viewtopic.php?t=8588), 2023).
+  thomas@ham noticed that `%SYSINIT-I-CLRERL` never appeared and that RMS
+  reported an error. That was the closest anyone got: our trace showed RMS
+  failing at exactly that step.
+- **floris.fredrikze** (2024, `-cpu max` and UTM), **curlsman** (2024, M2 with
+  UTM 4.6.3, crash dumps attached), **redparadox** and **njmontfort**
+  ([Working with UTM on Apple Silicon](https://forum.vmssoftware.com/viewtopic.php?f=39&t=9407), 2025)
+  kept the question alive with new hardware and new QEMU versions.
+- **eschaton** opened [UTM issue #5195](https://github.com/utmapp/UTM/issues/5195)
+  (2023) asking for OpenVMS support in UTM, and **tifasoftware** noted there that
+  it boots with IDE disks, the controller setup we use too.
+- **Karl-KoenigK** started the
+  [Parallels forum thread](https://forum.parallels.com/threads/openvms-9-2-for-x86-64.363702/)
+  (2024) where the missing XSAVE on Apple Silicon came up.
+- **Remy van Elst** ([raymii.org](https://raymii.org/s/blog/OpenVMS_9.2_for_x86_Getting_Started.html)),
+  the [Proxmox guide on robertsinfosec](https://robertsinfosec.pages.dev/posts/openvms-on-proxmox)
+  and the [wb8tyw KVM write-up](https://wb8tyw-projects.blogspot.com/2025/01/openvms-92-3-community-edition-setup-on.html)
+  documented the community kit, the flat-vmdk naming and the `qemu-img` conversion
+  we rely on.
+
+If you posted an attempt we missed, open an issue and we'll add you.
+
 ## Notes
 
 - CPU model `Haswell-noTSX-IBRS`. Older models (Nehalem, Opteron_G5, plain
