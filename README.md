@@ -41,8 +41,15 @@ Verified with a small test (dec from 0, then `btw $8`, then read flags):
 ## Use
 
 1. Get the VSI community licence kit (vmssoftware.com, community licence
-   program). Copy its `*-flat.vmdk` (and the small descriptor `.vmdk`) into
-   this folder. Do **not** redistribute it - it is licensed to you.
+   program). It arrives as a zip with a VMware disk. Unzip it into this folder:
+
+       unzip ~/Downloads/<your kit>.zip -d .
+
+   The 2026 kit contains `X86_V923-comm-2026.vmdk` (a small descriptor) and
+   `X86_V923-comm-2026-flat.vmdk` (the 8 GB disk, raw). No conversion is
+   needed: `run-vms.sh` puts a qcow2 overlay on top of the flat file. If a kit
+   ships one single `.vmdk` instead, `run-vms.sh` converts it once to
+   `vms-base.qcow2`. Do **not** redistribute the kit - it is licensed to you.
 2. `./build-qemu.sh`  (once; needs Homebrew)
 3. `./run-vms.sh`     (console in this Terminal; type `BOOT` at the Boot Manager)
 4. From another Terminal: `ssh -p 2222 system@localhost`
