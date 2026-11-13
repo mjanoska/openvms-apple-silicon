@@ -1,0 +1,16 @@
+bt-flags.patch modifies QEMU and is therefore licensed under the GNU General
+Public License, version 2 or (at your option) any later version, like the
+QEMU file it changes (target/i386/tcg/emit.c.inc).
+
+The scripts and documentation in this repository (build-qemu.sh, run-vms.sh,
+test/bt-flags-test.c, README.md) are released under the MIT License:
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files, to deal in the software
+without restriction, including without limitation the rights to use, copy,
+modify, merge, publish, distribute, sublicense, and/or sell copies, subject to
+the condition that this notice is included in all copies or substantial
+portions. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
+
+OpenVMS is a trademark of VMS Software, Inc. This project contains no VSI or
+HPE software; you need your own VSI community licence kit.

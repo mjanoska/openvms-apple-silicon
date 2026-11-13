@@ -1,0 +1,40 @@
+diff --git a/target/i386/tcg/emit.c.inc b/target/i386/tcg/emit.c.inc
+index b3029f6..3a1450a 100644
+--- a/target/i386/tcg/emit.c.inc
++++ b/target/i386/tcg/emit.c.inc
+@@ -1453,25 +1453,17 @@ static void gen_bt_flags(DisasContext *s, X86DecodedInsn *decode, TCGv src,
+ 
+     /*
+      * C is the result of the test, Z is unchanged, and the others
+-     * are all undefined.
++     * are architecturally undefined.  Real Intel and AMD processors leave
++     * O, S, A and P unchanged as well, and some code depends on that
++     * (e.g. OpenVMS x86-64, whose VAX MACRO compiler emits
++     * "dec; bt $8, %r15w; jg" to restore C while keeping the result of
++     * the dec for the branch).  Therefore always generate EFLAGS and
++     * replace only the C bit, instead of switching to CC_OP_SAR, which
++     * recomputes O from unrelated values.
+      */
+-    if (s->cc_op == CC_OP_DYNAMIC || CC_OP_HAS_EFLAGS(s->cc_op)) {
+-        /* Generate EFLAGS and replace the C bit.  */
+-        cf = tcg_temp_new();
+-        tcg_gen_setcond_tl(TCG_COND_TSTNE, cf, src, mask);
+-        prepare_update_cf(decode, s, cf);
+-    } else {
+-        /*
+-         * Z was going to be computed from the non-zero status of CC_DST.
+-         * We can get that same Z value (and the new C value) by leaving
+-         * CC_DST alone, setting CC_SRC, and using a CC_OP_SAR of the
+-         * same width.
+-         */
+-        decode->cc_src = tcg_temp_new();
+-        decode->cc_dst = cpu_cc_dst;
+-        decode->cc_op = CC_OP_SARB + cc_op_size(s->cc_op);
+-        tcg_gen_shr_tl(decode->cc_src, src, count);
+-    }
++    cf = tcg_temp_new();
++    tcg_gen_setcond_tl(TCG_COND_TSTNE, cf, src, mask);
++    prepare_update_cf(decode, s, cf);
+ }
+ 
+ static void gen_BT(DisasContext *s, X86DecodedInsn *decode)

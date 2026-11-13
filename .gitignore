@@ -1,0 +1,8 @@
+# VSI community kit and your VM state: personal, licensed, never commit
+*.vmdk
+*.qcow2
+*.fd
+*.zip
+# QEMU source/build tree created by build-qemu.sh
+/qemu/
+.DS_Store
