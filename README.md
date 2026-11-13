@@ -109,6 +109,20 @@ Every save makes a new file version (`HELLO.PAS;1`, `;2`, ...). A first program:
 `SYSTEM` is the administrator (like root); make your own account with
 `RUN SYS$SYSTEM:AUTHORIZE`.
 
+## Kickstarter kit: further reading
+
+Inside VMS: `HELP INSTRUCTIONS`, then `HELP <command>`.
+
+- [VSI OpenVMS User's Manual](https://docs.vmssoftware.com/docs/vsi-openvms-user-s-manual.pdf) - the official introduction to VMS and DCL; start here
+- [VSI documentation library](https://docs.vmssoftware.com) - all manuals, incl. DCL Dictionary and System Manager's Manual
+- [Raymii.org: OpenVMS x86 Getting Started](https://raymii.org/s/blog/OpenVMS_9.2_for_x86_Getting_Started.html) - hobbyist series: licences, network, SSH, software
+- [OpenVMS vs. Unix](https://neilrieck.net/docs/vms_vs_unix.html) (Neil Rieck) - for Linux people
+- [DECUServe / Eisner](https://eisner.decus.org/) - free account on a long-running public VMS system
+- [VSI OpenVMS Forum](https://forum.vmssoftware.com) - VSI engineers and hobbyists
+- comp.os.vms - the Usenet newsgroup, via any newsreader
+- *Getting Started with OpenVMS: A Guide for New Users*, Michael D. Duffy (Digital Press, 2002)
+- [VSI community licence](https://vmssoftware.com/community/community-license/) - get your own kit
+
 ## Reproduce the flag bug
 
 `test/bt-flags-test.c` needs an x86-64 machine (or `qemu-x86_64` on Linux):
