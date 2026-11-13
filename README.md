@@ -1,9 +1,15 @@
 # OpenVMS x86-64 on Apple Silicon
 
-Runs the **VSI OpenVMS x86-64 community kit** (tested: V9.2-3, 2026 kit) on an
-Apple Silicon Mac (tested: M4 MacBook Pro) using QEMU's x86 emulation (TCG),
-with a small QEMU fix. Full boot to the login prompt takes about 1 minute
-with 4 CPUs / 8 GB.
+Run **OpenVMS**, the operating system DEC introduced in 1977 with the VAX and
+still developed today by VMS Software Inc. (VSI), on an Apple Silicon Mac.
+VSI gives out a free, non-commercial community licence with a ready-made
+virtual machine. This repo makes that VM run on M-series Macs, using QEMU's
+x86 emulation plus a small QEMU fix. Tested on an M4 MacBook Pro with the
+2026 community kit (OpenVMS V9.2-3): full boot in about a minute with
+4 CPUs / 8 GB.
+
+**New to VMS?** Jump to [Use](#use) and [Your first ten minutes](#your-first-ten-minutes).
+The next section explains the bug, for the curious.
 
 ## Why a patched QEMU?
 
@@ -40,6 +46,12 @@ Verified with a small test (dec from 0, then `btw $8`, then read flags):
 
 ## Use
 
+You need: an Apple Silicon Mac, ~15 GB free disk, Apple's developer tools
+(`xcode-select --install`) and [Homebrew](https://brew.sh).
+
+    git clone https://github.com/mjanoska/openvms-apple-silicon.git
+    cd openvms-apple-silicon
+
 1. Get the VSI community licence kit (vmssoftware.com, community licence
    program). It arrives as a zip with a VMware disk. Unzip it into this folder:
 
@@ -64,6 +76,38 @@ kit renewal only replaces the system disk:
 
     $ INITIALIZE DKA100: USERDATA
     $ MOUNT/SYSTEM DKA100: USERDATA
+
+## Your first ten minutes
+
+When the boot messages stop, press Enter, log in as `SYSTEM` with your kit's
+password. The `$` prompt is DCL; commands can be shortened (`DIR` = `DIRECTORY`).
+
+| DCL                         | does                          | Unix      |
+|-----------------------------|-------------------------------|-----------|
+| `HELP`                      | built-in manual               | `man`     |
+| `DIRECTORY`                 | list files                    | `ls -l`   |
+| `TYPE LOGIN.COM`            | show a file                   | `cat`     |
+| `CREATE/DIRECTORY [.HELLO]` | make a directory              | `mkdir`   |
+| `SET DEFAULT [.HELLO]`      | change directory              | `cd`      |
+| `EDIT/TPU HELLO.PAS`        | full-screen editor            | `nano`    |
+| `PURGE`                     | delete old file versions      | -         |
+| `SHOW SYSTEM`               | processes                     | `ps`      |
+| `LOGOUT`                    | log out                       | `exit`    |
+
+Every save makes a new file version (`HELLO.PAS;1`, `;2`, ...). A first program:
+
+    $ CREATE HELLO.PAS
+    program hello(output);
+    begin
+      writeln('Hello from OpenVMS on a Mac');
+    end.
+    (press Ctrl-Z)
+    $ PASCAL HELLO
+    $ LINK HELLO
+    $ RUN HELLO
+
+`SYSTEM` is the administrator (like root); make your own account with
+`RUN SYS$SYSTEM:AUTHORIZE`.
 
 ## Reproduce the flag bug
 
