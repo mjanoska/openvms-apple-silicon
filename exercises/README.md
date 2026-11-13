@@ -7,8 +7,8 @@ VMS/DCL programming assignments of the course *Programozási környezetek*
 Center.
 
 The task descriptions below are written in our own words. For the original
-Hungarian assignment page see the [archive](#sources), and for a former
-student's English translation with complete example solutions see
+Hungarian assignment page see [Sources](#sources), and for a former
+student's English version with downloadable example solutions see
 [Gergő Érdi's page](https://erdi.dev/elte/2005-1-vms/). Try the tasks yourself
 before looking at his solutions.
 
@@ -72,8 +72,10 @@ one-player Battleship.
 
 ## Sources
 
-- Original assignment page (Hungarian), no longer online:
-  `http://csirke.elte.hu/~maulis/progkorny/beadando15.html` -
-  [look it up in the Wayback Machine](https://web.archive.org/web/2006*/csirke.elte.hu/~maulis/progkorny/*)
+- Original assignment page (Hungarian), no longer online and not in the
+  Wayback Machine: `http://csirke.elte.hu/~maulis/progkorny/beadando15.html`.
+  Earlier assignment sets from the same course (1998-2003) and its lecture
+  notes are archived:
+  [list of archived pages](https://web.archive.org/web/2006*/csirke.elte.hu/~maulis/progkorny/*)
 - English translation and solutions by Gergő Érdi:
   https://erdi.dev/elte/2005-1-vms/

@@ -23,11 +23,12 @@ and the console falls silent after `%SYSTEM-W-NOPAGEFILE`.
 
 Cause: QEMU's emulation of the x86 `BT` (bit test) instruction rewrites the
 OF flag. Intel documents OF/SF/AF/PF as "undefined" after BT, but real Intel
-and AMD CPUs leave them unchanged - and VSI's VAX-MACRO-to-x86 compiler relies
-on that. It translates VAX `SOBGTR` as
+CPUs leave them unchanged (measured on a Xeon; AMD not yet checked) - and VSI's
+VAX-MACRO-to-x86 compiler relies on that. It translates VAX `SOBGTR` as
 
     decl  %r10d          ; counter - 1, sets ZF/SF/OF
     btw   $8, %r15w      ; restore the VAX C bit into CF
+    lahf                 ; (save the flags for later VAX code)
     jg    loop           ; loop while counter > 0
 
 Under QEMU the `jg` stays taken for negative counters, so an RMS loop never
@@ -41,7 +42,7 @@ Verified with a small test (dec from 0, then `btw $8`, then read flags):
 | CPU                       | OF after btw | jg       |
 |---------------------------|--------------|----------|
 | Intel Xeon (hardware)     | 0            | not taken|
-| QEMU 8.2 / 11.1.3 stock   | 1            | TAKEN    |
+| QEMU 8.2 / 11.2-rc0 stock | 1            | TAKEN    |
 | QEMU + bt-flags.patch     | 0            | not taken|
 
 ## Use
@@ -138,7 +139,8 @@ keeps OF=0 and `jg` not taken; unpatched QEMU sets OF=1 and `jg` taken.
 ## Verification
 
 Tested on a real Intel Xeon (x86-64 host) with QEMU user mode built from the
-same source, stock vs. patched:
+same source (v11.2.0-rc0), stock vs. patched. The patch applies unchanged to
+v11.1.3, which `build-qemu.sh` uses:
 
 | Test | Stock QEMU | Patched QEMU |
 |------|-----------|--------------|

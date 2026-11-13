@@ -7,10 +7,10 @@ index b3029f6..3a1450a 100644
      /*
       * C is the result of the test, Z is unchanged, and the others
 -     * are all undefined.
-+     * are architecturally undefined.  Real Intel and AMD processors leave
++     * are architecturally undefined.  Real Intel processors leave
 +     * O, S, A and P unchanged as well, and some code depends on that
 +     * (e.g. OpenVMS x86-64, whose VAX MACRO compiler emits
-+     * "dec; bt $8, %r15w; jg" to restore C while keeping the result of
++     * "dec; bt $8, %r15w; lahf; jg" to restore C while keeping the result of
 +     * the dec for the branch).  Therefore always generate EFLAGS and
 +     * replace only the C bit, instead of switching to CC_OP_SAR, which
 +     * recomputes O from unrelated values.

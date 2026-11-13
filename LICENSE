@@ -3,7 +3,7 @@ Public License, version 2 or (at your option) any later version, like the
 QEMU file it changes (target/i386/tcg/emit.c.inc).
 
 The scripts and documentation in this repository (build-qemu.sh, run-vms.sh,
-test/bt-flags-test.c, README.md) are released under the MIT License:
+the programs in test/, README.md, exercises/README.md) are released under the MIT License:
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files, to deal in the software
