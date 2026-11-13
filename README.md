@@ -76,6 +76,26 @@ kit renewal only replaces the system disk:
 Look at the `+ btw` lines for "dec from 0" and "dec from -1617": hardware
 keeps OF=0 and `jg` not taken; unpatched QEMU sets OF=1 and `jg` taken.
 
+## Verification
+
+Tested on a real Intel Xeon (x86-64 host) with QEMU user mode built from the
+same source, stock vs. patched:
+
+| Test | Stock QEMU | Patched QEMU |
+|------|-----------|--------------|
+| `test/bt-flags-diff.c`: 36,000 cases (BT/BTS/BTR/BTC, 16/32/64-bit, reg/imm/mem, after add/sub/cmp/and/xor/test/dec/inc/neg/shl), flags compared with hardware | 18,734 differ | 0 differ |
+| QEMU `make check-tcg` (x86_64-linux-user, 74 tests) | - | all pass |
+| QEMU `test-i386` (10,003 result lines) | same output as patched | same output as stock |
+
+Run it yourself on an x86-64 Linux machine:
+
+    gcc -O1 -static -o btdiff test/bt-flags-diff.c
+    ./btdiff > hw.txt
+    qemu-x86_64 ./btdiff > qemu.txt
+    diff hw.txt qemu.txt | grep -c '^<'      # 0 with the patch
+
+Only Intel hardware was checked so far; results from AMD CPUs are welcome.
+
 ## Notes
 
 - CPU model `Haswell-noTSX-IBRS`. Older models (Nehalem, Opteron_G5, plain
